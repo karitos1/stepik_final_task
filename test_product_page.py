@@ -1,6 +1,37 @@
 from .pages.product_page import ProductPage
 from .pages.basket_page import BasketPage
+from .pages.login_page import LoginPage
 import pytest
+import faker
+
+
+@pytest.mark.user
+class TestUserAddToBasketFromProductPage:
+    @pytest.fixture(autouse=True)
+    def setup(self, browser):
+        link = 'https://selenium1py.pythonanywhere.com/accounts/login/'
+        page = LoginPage(browser, link)
+        page.open()
+        f = faker.Faker()
+        email = f.email()
+        password = f.password()
+        page.register_new_user(email, password)
+        page.should_be_authorized_user()
+
+    def test_user_cant_see_success_message(self, browser):
+        link = 'http://selenium1py.pythonanywhere.com/ru/catalogue/the-shellcoders-handbook_209/'
+        page = ProductPage(browser, link)
+        page.open()
+        page.should_not_be_success_message()
+
+    def test_user_can_add_product_to_basket(self, browser):
+        link = 'http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/'
+        page = ProductPage(browser, link)
+        page.open()
+        page.add_to_basket()
+        page.should_be_success_message()
+        page.should_be_equal_product_name()
+        page.should_be_equal_product_price()
 
 
 def test_guest_should_see_login_link_on_product_page(browser):
@@ -64,4 +95,3 @@ def test_message_disappeared_after_adding_product_to_basket(browser):
     page.open()
     page.add_to_basket()
     page.should_disappear_of_success_message()
-
