@@ -30,5 +30,3 @@ class ProductPage(BasePage):
         added_product_price = self.browser.find_element(*ProductPageLocators.ADDED_PRODUCT_PRICE)
         assert product_price.text == added_product_price.text, \
             "The price of the cart does not match the price of the product"
-
-
