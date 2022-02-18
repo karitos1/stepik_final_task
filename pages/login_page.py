@@ -9,10 +9,10 @@ class LoginPage(BasePage):
         self.should_be_register_form()
 
     def should_be_login_url(self):
-        assert 'login' in self.browser.current_url, "Текущий url не содержит 'login'"
+        assert 'login' in self.browser.current_url, "Current url doesn't contain 'login'"
 
     def should_be_login_form(self):
-        assert self.is_element_present(*LoginPageLocators.LOGIN_FORM), "Нет формы аутентификации"
+        assert self.is_element_present(*LoginPageLocators.LOGIN_FORM), "Login form is not presented"
 
     def should_be_register_form(self):
-        assert self.is_element_present(*LoginPageLocators.REGISTER_FORM), "Нет формы регистрации"
+        assert self.is_element_present(*LoginPageLocators.REGISTER_FORM), "Register form is not presented"
